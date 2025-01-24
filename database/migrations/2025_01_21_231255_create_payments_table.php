@@ -30,6 +30,7 @@ return new class extends Migration
                 ->default('pending')
                 ->comment('Estado actual del pago: pendiente, pagado o vencido');
             $table->timestamps();
+            $table->softDeletes()->comment('Fecha de eliminación lógica del pago');
         });
 
         DB::statement("ALTER TABLE `payments` COMMENT = 'Tabla que almacena los pagos asociados a diferentes servicios y usuarios, con información del estado, monto y fechas importantes.'");
