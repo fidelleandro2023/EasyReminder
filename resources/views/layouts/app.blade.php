@@ -17,7 +17,7 @@
             @livewire('navigation-menu') 
             @if (isset($header))
                 <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>
@@ -44,11 +44,17 @@
             $hamburgerButton.on('click', function () {
                 console.log('clickkkkk'); 
                 const isCollapsed = $sidebar.width() === 50;  
-                $sidebar.css('width', isCollapsed ? '250px' : '50px');  
-                $dashboardContent.css('margin-left', isCollapsed ? '250px' : '50px');  
+                $sidebar.css('width', isCollapsed ? '250px' : '50px');
+                $dashboardContent.css('margin-left', isCollapsed ? '250px' : '50px');
+                $sidebar.toggleClass('collapsed', !isCollapsed);
+                $sidebar.find("ul li a").toggle();
+                if (isCollapsed) {
+                    $sidebar.find("ul li a").fadeIn();   
+                } else {
+                    $sidebar.find("ul li a").fadeOut(); 
+                }
             });
         });
     </script>
-
 
 </html>
