@@ -36,5 +36,6 @@ include "modulos/payments.php";
 include "modulos/paymentHistory.php";
 include "modulos/recurringPayments.php";
 include "modulos/reminders.php";
+include "modulos/serviceEntity.php";
 include "modulos/users.php";
 include "modulos/userSettings.php";
