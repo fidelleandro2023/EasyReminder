@@ -13,9 +13,37 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(10); // Paginación de usuarios
-
+        $users = User::paginate(10);  
         return view('users.index', compact('users'));
+    }
+    /**
+     * Crear usuario
+    */
+    public function create()
+    {
+        return view('users.create');
+    }
+    /**
+     * Almacena un nuevo usuario.
+     */
+    public function store(Request $request)
+    {
+        // Validar los datos del formulario
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email|max:255',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Crear el nuevo usuario
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Redirigir con un mensaje de éxito
+        return redirect()->route('users.index')->with('success', 'Usuario creado exitosamente.');
     }
 
     /**
@@ -65,8 +93,29 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
-
+        $user->delete(); 
         return redirect()->route('users.index')->with('success', 'Usuario eliminado exitosamente.');
+    }
+    /**
+     * Busca usuarios basados en el nombre o correo electrónico.
+     */
+    public function search(Request $request)
+    {
+        $request->validate([
+            'search' => 'nullable|string|max:255',
+        ]);
+
+        $query = User::query();
+
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('name', 'like', '%'.$request->search.'%')
+                ->orWhere('email', 'like', '%'.$request->search.'%');
+            });
+        }
+
+        $users = $query->paginate(10);
+
+        return view('users.index', compact('users'));
     }
 }

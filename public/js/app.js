@@ -1,4 +1,11 @@
 $(document).ready(function () {
+
+    $('.expand-menu').click(function() {
+        var submenu = $(this).next('.submenu');  
+        submenu.toggleClass('open');  
+        $(this).find('i').toggleClass('fa-plus fa-minus');  
+    });
+
     const $hamburgerButton = $('#hamburgerButton');
     const $sidebar = $('#sidebar');
     const $dashboardContent = $('#dashboardContent');

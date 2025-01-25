@@ -27,6 +27,8 @@ Route::middleware([
 });
  
 
+
+//Rutas de módulos
 include "modulos/auditLogs.php";
 include "modulos/budget.php";
 include "modulos/expenseAnalysis.php";
@@ -39,3 +41,6 @@ include "modulos/reminders.php";
 include "modulos/serviceEntity.php";
 include "modulos/users.php";
 include "modulos/userSettings.php";
+include "modulos/roles.php";
+include "modulos/permisos.php"; 
+include "modulos/menus.php"; 

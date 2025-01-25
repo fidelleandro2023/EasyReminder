@@ -1,10 +1,10 @@
 <?php
-
 namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Models\User;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
@@ -12,20 +12,26 @@ class RolesAndPermissionsSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
-        // Crear permisos
-        $permissions = ['create posts', 'edit posts', 'delete posts'];
+    { 
+        $user = User::create([
+            'name' => 'Fidel Leandro',
+            'email' => 'fidelleandro@msn.com',
+            'password' => bcrypt('12345678'),
+        ]);
+
+        $permissions = ['create', 'edit', 'delete', 'view', 'search'];
 
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);
         }
 
-        // Crear roles
         $roleAdmin = Role::create(['name' => 'admin']);
         $roleEditor = Role::create(['name' => 'editor']);
-
-        // Asignar permisos a roles
+        $roleUser = Role::create(['name' => 'user']);
+        $role = Role::findByName('admin'); 
+        $user->assignRole($role); 
         $roleAdmin->givePermissionTo(Permission::all());
-        $roleEditor->givePermissionTo(['create posts', 'edit posts']);
+        $roleUser->givePermissionTo(Permission::all());
+        $roleEditor->givePermissionTo(['create', 'edit']);
     }
 }

@@ -4,28 +4,28 @@ use App\Http\Controllers\ServiceEntityController;
 
 Route::get('service-entity', [ServiceEntityController::class, 'index'])
     ->middleware('auth')
-    ->name('service-entity.index');
+    ->name('service_entities.index');
 
 Route::get('service-entity/create', [ServiceEntityController::class, 'create'])
     ->middleware('auth')
-    ->name('service-entity.create');
+    ->name('service_entities.create');
 
 Route::post('service-entity', [ServiceEntityController::class, 'store'])
     ->middleware('auth')
-    ->name('service-entity.store');
+    ->name('service_entities.store');
 
 Route::get('service-entity/{serviceEntity}', [ServiceEntityController::class, 'show'])
     ->middleware('auth')
-    ->name('service-entity.show');
+    ->name('service_entities.show');
 
 Route::get('service-entity/{serviceEntity}/edit', [ServiceEntityController::class, 'edit'])
     ->middleware('auth')
-    ->name('service-entity.edit');
+    ->name('service_entities.edit');
 
 Route::put('service-entity/{serviceEntity}', [ServiceEntityController::class, 'update'])
     ->middleware('auth')
-    ->name('service-entity.update');
+    ->name('service_entities.update');
 
 Route::delete('service-entity/{serviceEntity}', [ServiceEntityController::class, 'destroy'])
     ->middleware('auth')
-    ->name('service-entity.destroy');
+    ->name('service_entities.destroy');

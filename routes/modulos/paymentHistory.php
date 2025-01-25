@@ -4,7 +4,7 @@ use App\Http\Controllers\PaymentHistoryController;
 
 Route::get('payment-histories', [PaymentHistoryController::class, 'index'])
     ->middleware('auth')
-    ->name('payment_histories.index');
+    ->name('payments.history');
 
 Route::get('payment-histories/create', [PaymentHistoryController::class, 'create'])
     ->middleware('auth')

@@ -83,7 +83,7 @@
                     <a href="{{ route('payments.index') }}" class="bg-gray-500 text-white py-3 px-4 rounded-lg text-center hover:bg-gray-600">
                         <i class="fas fa-list"></i> Ver Lista de Pagos
                     </a>
-                    <a href="{{ route('payment_histories.index') }}" class="bg-green-500 text-white py-3 px-4 rounded-lg text-center hover:bg-green-600">
+                    <a href="{{ route('payments.history') }}" class="bg-green-500 text-white py-3 px-4 rounded-lg text-center hover:bg-green-600">
                         <i class="fas fa-history"></i> Ver Historial
                     </a>
                 </div>
