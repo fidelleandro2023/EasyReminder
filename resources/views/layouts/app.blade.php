@@ -30,31 +30,6 @@
         @livewireScripts
     </body>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            const $hamburgerButton = $('#hamburgerButton');
-            const $sidebar = $('#sidebar');
-            const $dashboardContent = $('#dashboardContent');
- 
-            if ($hamburgerButton.length === 0) {
-                console.error('Uno o más elementos no se encontraron en el DOM.');
-                return;
-            }
- 
-            $hamburgerButton.on('click', function () {
-                console.log('clickkkkk'); 
-                const isCollapsed = $sidebar.width() === 50;  
-                $sidebar.css('width', isCollapsed ? '250px' : '50px');
-                $dashboardContent.css('margin-left', isCollapsed ? '250px' : '50px');
-                $sidebar.toggleClass('collapsed', !isCollapsed);
-                $sidebar.find("ul li a").toggle();
-                if (isCollapsed) {
-                    $sidebar.find("ul li a").fadeIn();   
-                } else {
-                    $sidebar.find("ul li a").fadeOut(); 
-                }
-            });
-        });
-    </script>
+    <script src="{{ asset('js/app.js') }}"></script>
 
 </html>

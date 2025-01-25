@@ -43,3 +43,6 @@
     opacity: 0;
     pointer-events: none;  
 }
+main{
+    margin: 0 30px;
+}

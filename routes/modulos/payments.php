@@ -2,16 +2,16 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
 
-Route::get('payments', [PaymentController::class, 'index'])->middleware('auth')->name('payments.index');
+Route::get('pagos', [PaymentController::class, 'index'])->middleware('auth')->name('payments.index');
 
-Route::get('payments/create', [PaymentController::class, 'create'])->middleware('auth')->name('payments.create');
+Route::get('pagos/crear', [PaymentController::class, 'create'])->middleware('auth')->name('payments.create');
 
-Route::post('payments', [PaymentController::class, 'store'])->middleware('auth')->name('payments.store');
+Route::post('pagos', [PaymentController::class, 'store'])->middleware('auth')->name('payments.store');
 
-Route::get('payments/{payment}', [PaymentController::class, 'show'])->middleware('auth')->name('payments.show');
+Route::get('pagos/{payment}', [PaymentController::class, 'show'])->middleware('auth')->name('payments.show');
 
-Route::get('payments/{payment}/edit', [PaymentController::class, 'edit'])->middleware('auth')->name('payments.edit');
+Route::get('pagos/{payment}/editar', [PaymentController::class, 'edit'])->middleware('auth')->name('payments.edit');
 
-Route::put('payments/{payment}', [PaymentController::class, 'update'])->middleware('auth')->name('payments.update');
+Route::put('pagos/{payment}', [PaymentController::class, 'update'])->middleware('auth')->name('payments.update');
 
-Route::delete('payments/{payment}', [PaymentController::class, 'destroy'])->middleware('auth')->name('payments.destroy');
+Route::delete('pagos/{payment}', [PaymentController::class, 'destroy'])->middleware('auth')->name('payments.destroy');

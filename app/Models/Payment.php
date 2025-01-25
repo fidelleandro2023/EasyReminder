@@ -61,4 +61,12 @@ class Payment extends Model
     {
         return $query->where('due_date', '<=', now()->addDays(3));
     }
+
+    /**
+     * Scope para obtener los pagos no eliminados (soft deleted).
+     */
+    public function scopeNotDeleted($query)
+    {
+        return $query->whereNull('deleted_at');
+    }
 }

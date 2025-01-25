@@ -26,8 +26,15 @@ Route::middleware([
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
  
-include "modulos/payments.php";
-include "modulos/paymentHistory.php";
+
+include "modulos/auditLogs.php";
 include "modulos/budget.php";
-include "recurringPayments.php";
-include "reminders.php";
+include "modulos/expenseAnalysis.php";
+include "modulos/expenseCategory.php";
+include "modulos/notifications.php";
+include "modulos/payments.php"; 
+include "modulos/paymentHistory.php";
+include "modulos/recurringPayments.php";
+include "modulos/reminders.php";
+include "modulos/users.php";
+include "modulos/userSettings.php";
