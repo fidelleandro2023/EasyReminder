@@ -9,14 +9,17 @@
 
         <!-- Formulario -->
         <form action="{{ route('payments.store') }}" method="POST" class="space-y-6 bg-white shadow rounded-lg p-6">
-            @csrf
-
+            @csrf 
             <!-- Servicio -->
             <div>
                 <label for="service_entity_id" class="block font-semibold mb-1">Servicio:</label>
                 <select name="service_entity_id" id="service_entity_id" class="w-full border-gray-300 rounded">
-                    @foreach ($services as $service)
-                    <option value="{{ $service->id }}">{{ $service->name }}</option>
+                    @foreach ($categories as $category)
+                        <optgroup label="{{ $category->name }}">
+                            @foreach ($category->services as $service)
+                                <option value="{{ $service->id }}">{{ $service->name }}</option>
+                            @endforeach
+                        </optgroup>
                     @endforeach
                 </select>
                 @error('service_entity_id')
@@ -52,5 +55,19 @@
                 </a>
             </div>
         </form>
-    </div>
-</x-app-layout>
+    </div> 
+</x-app-layout> 
+ 
+
+<script src="{{ asset('js/select2/js/select2.min.js') }}"></script>
+<link href="{{ asset('js/select2/css/select2.min.css') }}" rel="stylesheet" />
+<script>
+    $(document).ready(function() {
+        $('#service_entity_id').select2({
+            placeholder: 'Seleccione un servicio',
+            allowClear: true,
+            width:'100%'
+        });
+    });
+</script>
+   

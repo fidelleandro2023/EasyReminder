@@ -31,4 +31,8 @@ class ServiceEntity extends Model
     {
         return $this->hasMany(Payment::class);
     }
+    public function services()
+    {
+        return $this->hasMany(ServiceEntity::class, 'parent_id');
+    }
 }

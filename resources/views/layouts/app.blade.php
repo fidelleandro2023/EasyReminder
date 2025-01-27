@@ -14,15 +14,17 @@
     <body class="font-sans antialiased">
         <x-banner /> 
         <livewire:sidebar />   
-        <div id="dashboardContent" class="min-h-screen bg-gray-100" style="margin-left: 250px;">  
-            @livewire('navigation-menu') 
-            @if (isset($header))
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-            @endif 
+        <div id="dashboardContent" class="min-h-screen bg-gray-100" style="margin-left: 250px;"> 
+            <div id="topbar" class="fixed top-0 inset-x-0 z-50 bg-white">
+                @livewire('navigation-menu') 
+                @if (isset($header))
+                <header class="bg-white shadow">
+                    <div class="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
+                        {{ $header }}
+                    </div>
+                </header>
+                @endif 
+            </div>  
             <main>
                 {{ $slot }}
             </main>

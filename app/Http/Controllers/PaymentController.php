@@ -27,8 +27,11 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        $services = ServiceEntity::all();
-        return view('payments.create', compact('services'));
+        $categories = ServiceEntity::whereNull('parent_id')
+        ->with('services')
+        ->get();
+
+        return view('payments.create', compact('categories'));
     }
 
     /**

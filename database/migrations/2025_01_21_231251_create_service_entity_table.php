@@ -14,10 +14,17 @@ return new class extends Migration
     {
         Schema::create('service_entity', function (Blueprint $table) {
             $table->id()->comment('Identificador único del servicio');
+            $table->foreignId('parent_id')
+                ->nullable()
+                ->constrained('service_entity')
+                ->nullOnDelete()
+                ->comment('Referencia al servicio padre en caso de que sea una subcategoría');
             $table->string('name', 100)->comment('Nombre del servicio, por ejemplo: agua, luz, teléfono');
             $table->text('description')->nullable()->comment('Descripción del servicio para más detalles');
-            $table->timestamps(); 
+            $table->boolean('is_active')->default(true)->comment('Indica si el servicio está activo');
+            $table->timestamps();
         });
+        
         DB::statement("ALTER TABLE `service_entity` COMMENT = 'Tabla que almacena los diferentes tipos de servicios a los que se pueden asociar pagos o recordatorios.'");
     }
 

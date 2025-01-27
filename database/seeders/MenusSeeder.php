@@ -27,7 +27,7 @@ class MenusSeeder extends Seeder
                 'children' => [
                     [
                         'name' => 'Crear Menú',
-                        'url' => route('menus.create'),
+                        'url' => str_replace(url('/'), '', route('menus.create')),
                         'icon' => 'fas fa-plus',
                         'roles' => json_encode([$roleAdmin->id]),
                         'permissions' => json_encode(['create']),
@@ -35,7 +35,7 @@ class MenusSeeder extends Seeder
                     ],
                     [
                         'name' => 'Listar Menú',
-                        'url' => route('menus.index'),
+                        'url' => str_replace(url('/'), '', route('menus.index')),
                         'icon' => 'fas fa-list',
                         'roles' => json_encode([$roleAdmin->id, $roleEditor->id]),
                         'permissions' => json_encode(['view']),
@@ -53,7 +53,7 @@ class MenusSeeder extends Seeder
                 'children' => [
                     [
                         'name' => 'Crear Rol',
-                        'url' => route('roles.create'),
+                        'url' => str_replace(url('/'), '', route('roles.create')),
                         'icon' => 'fas fa-plus',
                         'roles' => json_encode([$roleAdmin->id]),
                         'permissions' => json_encode(['create']),
@@ -61,7 +61,7 @@ class MenusSeeder extends Seeder
                     ],
                     [
                         'name' => 'Listar Roles',
-                        'url' => route('roles.index'),
+                        'url' => str_replace(url('/'), '', route('roles.index')),
                         'icon' => 'fas fa-list',
                         'roles' => json_encode([$roleAdmin->id]),
                         'permissions' => json_encode(['view']),
@@ -79,7 +79,7 @@ class MenusSeeder extends Seeder
                 'children' => [
                     [
                         'name' => 'Crear Permiso',
-                        'url' => route('permissions.create'),
+                        'url' => str_replace(url('/'), '', route('permissions.create')),
                         'icon' => 'fas fa-plus',
                         'roles' => json_encode([$roleAdmin->id]),
                         'permissions' => json_encode(['create']),
@@ -87,7 +87,7 @@ class MenusSeeder extends Seeder
                     ],
                     [
                         'name' => 'Listar Permisos',
-                        'url' => route('permissions.index'),
+                        'url' => str_replace(url('/'), '', route('permissions.index')),
                         'icon' => 'fas fa-list',
                         'roles' => json_encode([$roleAdmin->id]),
                         'permissions' => json_encode(['view']),
@@ -105,7 +105,7 @@ class MenusSeeder extends Seeder
                 'children' => [
                     [
                         'name' => 'Crear Presupuesto',
-                        'url' => route('budgets.create'),
+                        'url' => str_replace(url('/'), '', route('budgets.create')),
                         'icon' => 'fas fa-plus',
                         'roles' => json_encode([$roleAdmin->id, $roleUser->id]),
                         'permissions' => json_encode(['create']),
@@ -113,7 +113,7 @@ class MenusSeeder extends Seeder
                     ],
                     [
                         'name' => 'Listar Presupuestos',
-                        'url' => route('budgets.index'),
+                        'url' => str_replace(url('/'), '', route('budgets.index')),
                         'icon' => 'fas fa-list',
                         'roles' => json_encode([$roleAdmin->id, $roleUser->id]),
                         'permissions' => json_encode(['view']),
@@ -123,7 +123,7 @@ class MenusSeeder extends Seeder
             ],
             [
                 'name' => 'Análisis de gastos',
-                'url' => route('expense.analysis'),
+                'url' => str_replace(url('/'), '', route('expense.analysis')),
                 'icon' => 'fas fa-chart-pie',
                 'roles' => json_encode([$roleAdmin->id, $roleEditor->id, $roleUser->id]),
                 'permissions' => json_encode(['view']),
@@ -131,7 +131,7 @@ class MenusSeeder extends Seeder
             ],
             [
                 'name' => 'Historial de pagos',
-                'url' => route('payments.history'),
+                'url' => str_replace(url('/'), '', route('payments.history')),
                 'icon' => 'fas fa-history',
                 'roles' => json_encode([$roleAdmin->id, $roleEditor->id, $roleUser->id]),
                 'permissions' => json_encode(['view']),
@@ -147,7 +147,7 @@ class MenusSeeder extends Seeder
                 'children' => [
                     [
                         'name' => 'Crear Pago',
-                        'url' => route('payments.create'),
+                        'url' => str_replace(url('/'), '', route('payments.create')),
                         'icon' => 'fas fa-plus',
                         'roles' => json_encode([$roleAdmin->id, $roleUser->id]),
                         'permissions' => json_encode(['create']),
@@ -155,7 +155,7 @@ class MenusSeeder extends Seeder
                     ],
                     [
                         'name' => 'Listar Pagos',
-                        'url' => route('payments.index'),
+                        'url' => str_replace(url('/'), '', route('payments.index')),
                         'icon' => 'fas fa-list',
                         'roles' => json_encode([$roleAdmin->id, $roleEditor->id, $roleUser->id]),
                         'permissions' => json_encode(['view']),
@@ -173,7 +173,7 @@ class MenusSeeder extends Seeder
                 'children' => [
                     [
                         'name' => 'Crear Pago Recurrente',
-                        'url' => route('recurring_payments.create'),
+                        'url' => str_replace(url('/'), '', route('recurring_payments.create')),
                         'icon' => 'fas fa-plus',
                         'roles' => json_encode([$roleAdmin->id, $roleUser->id]),
                         'permissions' => json_encode(['create']),
@@ -181,7 +181,7 @@ class MenusSeeder extends Seeder
                     ],
                     [
                         'name' => 'Listar Pagos Recurrentes',
-                        'url' => route('recurring_payments.index'),
+                        'url' => str_replace(url('/'), '', route('recurring_payments.index')),
                         'icon' => 'fas fa-list',
                         'roles' => json_encode([$roleAdmin->id, $roleEditor->id, $roleUser->id]),
                         'permissions' => json_encode(['view']),
@@ -199,7 +199,7 @@ class MenusSeeder extends Seeder
                 'children' => [
                     [
                         'name' => 'Crear Entidad de Servicio',
-                        'url' => route('service_entities.create'),
+                        'url' => str_replace(url('/'), '', route('service_entities.create')),
                         'icon' => 'fas fa-plus',
                         'roles' => json_encode([$roleAdmin->id, $roleUser->id]),
                         'permissions' => json_encode(['create']),
@@ -207,7 +207,7 @@ class MenusSeeder extends Seeder
                     ],
                     [
                         'name' => 'Listar Entidades de Servicio',
-                        'url' => route('service_entities.index'),
+                        'url' => str_replace(url('/'), '', route('service_entities.index')),
                         'icon' => 'fas fa-list',
                         'roles' => json_encode([$roleAdmin->id, $roleUser->id]),
                         'permissions' => json_encode(['view']),
@@ -225,7 +225,7 @@ class MenusSeeder extends Seeder
                 'children' => [
                     [
                         'name' => 'Crear Usuario',
-                        'url' => route('users.create'),
+                        'url' => str_replace(url('/'), '', route('users.create')),
                         'icon' => 'fas fa-plus',
                         'roles' => json_encode([$roleAdmin->id]),
                         'permissions' => json_encode(['create']),
@@ -233,7 +233,7 @@ class MenusSeeder extends Seeder
                     ],
                     [
                         'name' => 'Listar Usuarios',
-                        'url' => route('users.index'),
+                        'url' => str_replace(url('/'), '', route('users.index')),
                         'icon' => 'fas fa-list',
                         'roles' => json_encode([$roleAdmin->id]),
                         'permissions' => json_encode(['view']),
