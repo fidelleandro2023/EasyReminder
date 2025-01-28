@@ -14,10 +14,22 @@ return new class extends Migration
         Schema::create('recurring_payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('service_entity');
-            $table->decimal('amount', 10, 2);
-            $table->enum('frequency', ['monthly', 'yearly', 'quarterly']);
+            $table->foreignId('service_entity_id')
+                ->constrained('service_entity')
+                ->onDelete('cascade')
+                ->comment('Referencia al servicio recurrente asociado.');
+            $table->decimal('amount', 10, 2)
+                ->comment('Monto aproximado o fijo del pago recurrente.');
+            $table->enum('frequency', ['monthly', 'yearly', 'quarterly'])
+                ->comment('Frecuencia del pago: mensual, anual o trimestral.');
+            $table->date('start_date')->comment('Fecha de inicio del pago recurrente.');
+            $table->date('end_date')->nullable()->comment('Fecha opcional de fin del pago recurrente.');
+            $table->date('next_due_date')->nullable()->comment('Fecha calculada del próximo pago.');
+            $table->enum('status', ['active', 'paused', 'completed'])
+                ->default('active')
+                ->comment('Estado del pago recurrente.');
             $table->timestamps();
+            $table->softDeletes()->comment('Eliminación lógica del pago recurrente.');
         });
     }
 

@@ -9,7 +9,7 @@ class Menu extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'url', 'icon', 'roles', 'permissions', 'order'];
+    protected $fillable = ['name', 'url', 'icon', 'roles', 'permissions', 'order','parent_id'];
 
     // Decodificar roles y permisos como array
     protected $casts = [

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Menu;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -16,10 +14,12 @@ class MenuController extends Controller
     }
 
     public function create()
-    {
+    { 
+        $menus = Menu::all();
+        $menuTree = $this->buildMenuTree($menus); 
         $roles = Role::all();  
         $permissions = Permission::all(); 
-        return view('menus.create', compact('roles', 'permissions'));
+        return view('menus.create', compact('roles', 'permissions', 'menuTree'));
     }
 
     public function store(Request $request)
@@ -44,11 +44,15 @@ class MenuController extends Controller
         return redirect()->route('menus.index')->with('success', 'Menú creado exitosamente.');
     }
 
-    public function edit(Menu $menu)
+    public function edit($id)
     {
+        $menu = Menu::findOrFail($id);
         $roles = Role::all();
         $permissions = Permission::all();
-        return view('menus.edit', compact('menu', 'roles', 'permissions'));
+        $menus = Menu::where('id', '!=', $id)->get();
+        $menuTree = $this->buildMenuTree($menus);
+    
+        return view('menus.edit', compact('menu', 'roles', 'permissions', 'menuTree'));
     }
 
     public function update(Request $request, Menu $menu)
@@ -78,5 +82,17 @@ class MenuController extends Controller
         $menu->delete();
 
         return redirect()->route('menus.index')->with('success', 'Menú eliminado exitosamente.');
+    }
+
+    private function buildMenuTree($menus, $parentId = null)
+    {
+        $tree = [];
+        foreach ($menus as $menu) {
+            if ($menu->parent_id == $parentId) {
+                $menu->children = $this->buildMenuTree($menus, $menu->id);
+                $tree[] = $menu;
+            }
+        }
+        return $tree;
     }
 }

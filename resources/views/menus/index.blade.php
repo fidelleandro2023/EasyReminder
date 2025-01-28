@@ -23,8 +23,8 @@
                         <tr class="border-b border-gray-200">
                             <td class="py-3 px-6">{{ $menu->name }}</td>
                             <td class="py-3 px-6">{{ $menu->url }}</td>
-                            <td class="py-3 px-6">{{ implode(', ', $menu->roles ?? []) }}</td>
-                            <td class="py-3 px-6">{{ implode(', ', $menu->permissions ?? []) }}</td>
+                            <td class="py-3 px-6">{{ implode(', ', json_decode($menu->roles ?? '[]')) }}</td>
+                            <td class="py-3 px-6">{{ implode(', ', json_decode($menu->permissions ?? '[]')) }}</td>
                             <td class="py-3 px-6 text-center">
                                 <a href="{{ route('menus.edit', $menu->id) }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded">
                                     Editar

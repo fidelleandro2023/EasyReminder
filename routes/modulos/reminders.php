@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReminderController;
 
+Route::middleware(['auth', 'can:view'])->group(function () {
 Route::get('reminders', [ReminderController::class, 'index'])
     ->middleware('auth')
     ->name('reminders.index');
@@ -29,3 +30,4 @@ Route::put('reminders/{reminder}', [ReminderController::class, 'update'])
 Route::delete('reminders/{reminder}', [ReminderController::class, 'destroy'])
     ->middleware('auth')
     ->name('reminders.destroy');
+});
