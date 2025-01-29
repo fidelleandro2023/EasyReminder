@@ -12,9 +12,16 @@ class RecurringPaymentController extends Controller
      */
     public function index()
     {
-        $recurringPayments = RecurringPayment::with('serviceEntity')
-            ->where('user_id', Auth::id())
-            ->get();
+        $user = Auth::user();
+
+        if ($user->role === 'admin') {  
+            $recurringPayments = RecurringPayment::with('serviceEntity') 
+                                                 ->paginate(10); 
+        } else { 
+            $recurringPayments = RecurringPayment::with('serviceEntity')
+                                                 ->where('user_id', Auth::id())
+                                                 ->paginate(10); 
+        }
 
         return view('recurring_payments.index', compact('recurringPayments'));
     }
@@ -24,8 +31,10 @@ class RecurringPaymentController extends Controller
      */
     public function create()
     {
-        $services = ServiceEntity::all();
-        return view('recurring_payments.create', compact('services'));
+        $categories = ServiceEntity::whereNull('parent_id')
+                                   ->with('services')->paginate(10);
+                                   
+        return view('recurring_payments.create', compact('categories'));
     }
 
     /**
@@ -51,7 +60,7 @@ class RecurringPaymentController extends Controller
             'status' => 'active',
         ]);
 
-        return redirect()->route('recurring-payments.index')->with('success', 'Pago recurrente creado exitosamente.');
+        return redirect()->route('recurring_payments.index')->with('success', 'Pago recurrente creado exitosamente.');
     }
 
     /**
@@ -69,10 +78,11 @@ class RecurringPaymentController extends Controller
      */
     public function edit(RecurringPayment $recurringPayment)
     {
+        $categories = ServiceEntity::whereNull('parent_id')->with('services')->get();
         $this->authorize('update', $recurringPayment);
 
-        $services = ServiceEntity::all();
-        return view('recurring_payments.edit', compact('recurringPayment', 'services'));
+        //$services = ServiceEntity::all();
+        return view('recurring_payments.edit', compact('recurringPayment', 'categories'));
     }
 
     /**
@@ -93,7 +103,7 @@ class RecurringPaymentController extends Controller
 
         $recurringPayment->update($request->all());
 
-        return redirect()->route('recurring-payments.index')->with('success', 'Pago recurrente actualizado exitosamente.');
+        return redirect()->route('recurring_payments.index')->with('success', 'Pago recurrente actualizado exitosamente.');
     }
 
     /**

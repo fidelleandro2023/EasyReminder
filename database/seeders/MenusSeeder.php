@@ -96,6 +96,32 @@ class MenusSeeder extends Seeder
                 ],
             ],
             [
+                'name' => 'Recordatorios',
+                'url' => '#',
+                'icon' => 'fas fa-wallet',
+                'roles' => json_encode([$roleAdmin->id, $roleUser->id]),
+                'permissions' => json_encode(['create', 'view']),
+                'order' => 4,
+                'children' => [
+                    [
+                        'name' => 'Crear Recordatorio',
+                        'url' => str_replace(url('/'), '', route('reminders.create')),
+                        'icon' => 'fas fa-plus',
+                        'roles' => json_encode([$roleAdmin->id, $roleUser->id]),
+                        'permissions' => json_encode(['create']),
+                        'order' => 1,
+                    ],
+                    [
+                        'name' => 'Listar Recordatorios',
+                        'url' => str_replace(url('/'), '', route('reminders.index')),
+                        'icon' => 'fas fa-list',
+                        'roles' => json_encode([$roleAdmin->id, $roleUser->id]),
+                        'permissions' => json_encode(['view']),
+                        'order' => 2,
+                    ],
+                ],
+            ],
+            [
                 'name' => 'Presupuesto',
                 'url' => '#',
                 'icon' => 'fas fa-wallet',

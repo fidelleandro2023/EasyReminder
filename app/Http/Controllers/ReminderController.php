@@ -1,7 +1,8 @@
-<?php
-namespace App\Http\Controllers;
+<?php 
+namespace App\Http\Controllers; 
 use App\Models\Reminder;
 use App\Models\Payment;
+use App\Models\RecurringPayment;  
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,9 +13,9 @@ class ReminderController extends Controller
      */
     public function index()
     {
-        $reminders = Reminder::with(['payment', 'user'])
+        $reminders = Reminder::with(['payment', 'recurringPayment', 'user'])
             ->where('user_id', Auth::id())
-            ->get();
+            ->paginate(10); 
 
         return view('reminders.index', compact('reminders'));
     }
@@ -25,8 +26,9 @@ class ReminderController extends Controller
     public function create()
     {
         $payments = Payment::where('user_id', Auth::id())->get();
+        $recurringPayments = RecurringPayment::where('user_id', Auth::id())->get(); // Obtener pagos recurrentes
 
-        return view('reminders.create', compact('payments'));
+        return view('reminders.create', compact('payments', 'recurringPayments'));
     }
 
     /**
@@ -35,16 +37,21 @@ class ReminderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'payment_id' => 'required|exists:payments,id',
-            'reminder_type' => 'required|in:email,push,sms',
+            'payment_id' => 'nullable|exists:payments,id',
+            'recurring_payment_id' => 'nullable|exists:recurring_payments,id',
+            'reminder_types' => 'required|array',
+            'reminder_types.*' => 'in:email,push,sms',
             'status' => 'required|in:active,inactive',
+            'reminder_date' => 'required|date',
         ]);
 
         Reminder::create([
             'user_id' => Auth::id(),
             'payment_id' => $request->payment_id,
-            'reminder_type' => $request->reminder_type,
+            'recurring_payment_id' => $request->recurring_payment_id,
+            'reminder_types' => json_encode($request->reminder_types),
             'status' => $request->status,
+            'reminder_date' => $request->reminder_date,
         ]);
 
         return redirect()->route('reminders.index')->with('success', 'Recordatorio creado exitosamente.');
@@ -68,8 +75,9 @@ class ReminderController extends Controller
         $this->authorize('update', $reminder);
 
         $payments = Payment::where('user_id', Auth::id())->get();
+        $recurringPayments = RecurringPayment::where('user_id', Auth::id())->get(); // Obtener pagos recurrentes
 
-        return view('reminders.edit', compact('reminder', 'payments'));
+        return view('reminders.edit', compact('reminder', 'payments', 'recurringPayments'));
     }
 
     /**
@@ -80,12 +88,21 @@ class ReminderController extends Controller
         $this->authorize('update', $reminder);
 
         $request->validate([
-            'payment_id' => 'required|exists:payments,id',
-            'reminder_type' => 'required|in:email,push,sms',
+            'payment_id' => 'nullable|exists:payments,id',
+            'recurring_payment_id' => 'nullable|exists:recurring_payments,id',
+            'reminder_types' => 'required|array',
+            'reminder_types.*' => 'in:email,push,sms',
             'status' => 'required|in:active,inactive',
+            'reminder_date' => 'required|date',
         ]);
 
-        $reminder->update($request->all());
+        $reminder->update([
+            'payment_id' => $request->payment_id,
+            'recurring_payment_id' => $request->recurring_payment_id,
+            'reminder_types' => json_encode($request->reminder_types),
+            'status' => $request->status,
+            'reminder_date' => $request->reminder_date,
+        ]);
 
         return redirect()->route('reminders.index')->with('success', 'Recordatorio actualizado exitosamente.');
     }

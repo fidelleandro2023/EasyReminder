@@ -13,19 +13,35 @@ return new class extends Migration
     {
         Schema::create('reminders', function (Blueprint $table) {
             $table->id()->comment('Identificador único del recordatorio');
+
             $table->foreignId('user_id')
                 ->constrained()
                 ->onDelete('cascade')
                 ->comment('Referencia al usuario que creó el recordatorio');
+
             $table->foreignId('payment_id')
+                ->nullable()
                 ->constrained()
                 ->onDelete('cascade')
-                ->comment('Referencia al pago asociado que se está recordando');
-            $table->enum('reminder_type', ['email', 'push', 'sms'])
-                ->comment('Tipo de recordatorio: correo electrónico, notificación push o SMS');
+                ->comment('Referencia al pago único asociado (si aplica)');
+
+            $table->foreignId('recurring_payment_id')
+                ->nullable()
+                ->constrained('recurring_payments')
+                ->onDelete('cascade')
+                ->comment('Referencia al pago recurrente asociado (si aplica)');
+
+            $table->json('reminder_types')
+                ->comment('Tipos de recordatorio seleccionados: email, push, sms. Guardado en formato JSON.');
+
             $table->enum('status', ['active', 'inactive'])
                 ->default('active')
                 ->comment('Estado del recordatorio: activo o inactivo');
+
+            $table->date('reminder_date')
+                ->comment('Fecha en la que se enviará el recordatorio');
+
+            $table->timestamps();
         });
     }
 

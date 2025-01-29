@@ -96,7 +96,7 @@ main {
 }
 
 .custom-scrollbar {
-    height: 100vh;
+    height: calc(100vh - 75px);
     scrollbar-width: thin;
     scrollbar-color: #4B5563 #1F2937;
 }

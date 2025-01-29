@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Payment;
 use App\Models\ServiceEntity;
 use Illuminate\Http\Request;
@@ -14,10 +13,20 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $payments = Payment::notDeleted()
-        ->with('user', 'serviceEntity')
-        ->orderBy('due_date', 'asc')
-        ->get();
+        $user = Auth::user();
+
+        if ($user->role === 'admin') {  
+            $payments = Payment::notDeleted()
+                                ->with('user', 'serviceEntity')
+                                ->orderBy('due_date', 'asc')
+                                ->paginate(10);
+        } else { 
+            $payments = Payment::notDeleted()
+                                ->with('user', 'serviceEntity')
+                                ->where('user_id', $user->id)  
+                                ->orderBy('due_date', 'asc')
+                                ->paginate(10); 
+        }
 
         return view('payments.index', compact('payments'));
     }

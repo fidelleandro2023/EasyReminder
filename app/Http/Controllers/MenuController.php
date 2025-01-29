@@ -9,7 +9,7 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $menus = Menu::orderBy('order')->get();
+        $menus = Menu::orderBy('order')->paginate(10);
         return view('menus.index', compact('menus'));
     }
 

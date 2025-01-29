@@ -8,8 +8,7 @@ use Illuminate\Validation\Rule;
 class UserController extends Controller
 {
     /**
-     * Lista todos los usuarios.
-     * (Normalmente utilizado para un panel de administración).
+     * Lista todos los usuarios. 
      */
     public function index()
     {
@@ -27,22 +26,19 @@ class UserController extends Controller
      * Almacena un nuevo usuario.
      */
     public function store(Request $request)
-    {
-        // Validar los datos del formulario
+    { 
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email|max:255',
             'password' => 'required|string|min:8|confirmed',
         ]);
-
-        // Crear el nuevo usuario
+ 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
-        // Redirigir con un mensaje de éxito
+ 
         return redirect()->route('users.index')->with('success', 'Usuario creado exitosamente.');
     }
 
@@ -88,8 +84,7 @@ class UserController extends Controller
     }
 
     /**
-     * Elimina un usuario.
-     * (Usar con precaución, especialmente en entornos administrativos).
+     * Elimina un usuario. 
      */
     public function destroy(User $user)
     {

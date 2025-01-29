@@ -1,4 +1,9 @@
 <x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Pagos recurrentes') }}
+        </h2>
+    </x-slot>
     <div class="container mx-auto py-8">
         <h1 class="text-2xl font-bold mb-6">Crear Pago Recurrente</h1>
 
@@ -8,19 +13,23 @@
             <!-- Servicio -->
             <div>
                 <label for="service_entity_id" class="block font-semibold mb-1">Servicio:</label>
-                <select name="service_entity_id" id="service_entity_id" 
-                    class="w-full border-gray-300 rounded-lg focus:ring focus:ring-blue-200">
-                    <option value="">Seleccione un servicio</option>
-                    @foreach ($services as $service)
-                    <option value="{{ $service->id }}" {{ old('service_entity_id') == $service->id ? 'selected' : '' }}>
-                        {{ $service->name }}
-                    </option>
+                <select name="service_entity_id" id="service_entity_id" class="w-full border-gray-300 rounded-lg focus:ring focus:ring-blue-200">
+                    <option value="">-- Ninguno --</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" class="font-bold" data-category="{{ $category->name }}">
+                            {{ $category->name }}
+                        </option>
+                        @foreach ($category->services as $service)
+                            <option value="{{ $service->id }}" data-category="{{ $category->name }}" {{ old('parent_id') == $service->id ? 'selected' : '' }}>
+                                &nbsp;&nbsp;&nbsp;{{ $service->name }}
+                            </option>
+                        @endforeach
                     @endforeach
                 </select>
-                @error('service_entity_id')
-                <span class="text-red-500 text-sm">{{ $message }}</span>
+                @error('parent_id')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
-            </div>
+            </div> 
 
             <!-- Monto -->
             <div>
@@ -94,7 +103,48 @@
     </div>
 </x-app-layout> 
 
+<script src="{{ asset('js/select2/js/select2.min.js') }}"></script>
+<link href="{{ asset('js/select2/css/select2.min.css') }}" rel="stylesheet" />
+
 <script>
+    $(document).ready(function() {
+        function customMatcher(params, data) {
+            if ($.trim(params.term) === '') {
+                return data;
+            }
+
+            let term = params.term.toLowerCase();
+            let text = data.text.toLowerCase();
+            let category = $(data.element).data('category') ? $(data.element).data('category').toLowerCase() : '';
+
+            if (text.includes(term) || category.includes(term)) {
+                return data;
+            }
+
+            return null;
+        }
+
+        $('#service_entity_id').select2({
+            placeholder: 'Seleccione un servicio',
+            allowClear: true,
+            width: '100%',
+            matcher: customMatcher,
+            templateResult: function (data) {
+                if (!data.id) {
+                    return data.text;
+                }
+
+                let $element = $(data.element);
+                let category = $element.data('category');
+                let padding = category ? 'padding-left: 20px;' : 'font-weight: bold;';
+
+                return $('<span style="' + padding + '">' + data.text + '</span>');
+            },
+            templateSelection: function (data) {
+                return data.text;
+            }
+        });
+    });
     const frequencySelect = document.getElementById('frequency');
     const dayOfMonthContainer = document.getElementById('day-of-month-container');
 
@@ -106,4 +156,3 @@
         }
     });
 </script>
- 

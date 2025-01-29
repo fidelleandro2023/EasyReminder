@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RecurringPaymentController;
 
+
 Route::middleware(['auth', 'can:view'])->group(function () {
     Route::get('recurring-payments', [RecurringPaymentController::class, 'index'])
         ->middleware('auth')
