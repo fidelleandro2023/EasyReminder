@@ -23,11 +23,9 @@
                         </li>
                     </ul>
                 </div>
-
-                <!-- Contenido de los Tabs -->
+ 
                 <div id="regular-payments" class="tab-content">
-                    <div class="space-y-4"> 
-                        <!-- Sección de Pagos Regulares -->
+                    <div class="space-y-4">  
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <!-- Pagos Pendientes -->
                             <div class="bg-yellow-100 border-l-4 border-yellow-500 p-4">
@@ -65,8 +63,7 @@
                                     </div>
                                 </div>
                             </div> 
-                        </div>
-                        <!-- Accesos rápidos -->
+                        </div> 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6"> 
                                 <a href="{{ route('payments.create') }}" class="bg-blue-500 text-white py-3 px-4 rounded-lg text-center hover:bg-blue-600">
                                     <i class="fas fa-plus"></i> Nuevo Pago
@@ -81,10 +78,8 @@
                     </div>
                 </div>
 
-                <div id="recurring-payments" class="tab-content hidden">
-                    <!-- Sección de Pagos Recurrentes -->
-                    <div class="space-y-4"> 
-                        <!-- Resumen de Pagos Recurrentes -->
+                <div id="recurring-payments" class="tab-content hidden"> 
+                    <div class="space-y-4">  
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <!-- Pagos Activos -->
                             <div class="bg-blue-100 border-l-4 border-blue-500 p-4">
@@ -122,8 +117,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> 
-                        <!-- Lista Detallada de Pagos Recurrentes -->
+                        </div>  
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                             @foreach ($recurringPayments as $payment)
                             <div class="bg-white shadow-lg p-4 rounded-lg border-l-4 
@@ -144,8 +138,7 @@
                                 </p>
                             </div>
                             @endforeach
-                        </div> 
-                        <!-- Accesos rápidos -->
+                        </div>  
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <a href="{{ route('recurring_payments.create') }}" class="bg-blue-500 text-white py-3 px-4 rounded-lg text-center hover:bg-blue-600">
                                 <i class="fas fa-plus"></i> Nuevo Pago Recurrente
@@ -158,26 +151,20 @@
                             </a>
                         </div>
                     </div>
-                </div>
-
+                </div> 
             </div>
         </div>
     </div>
-
-    <!-- Scripts -->
+ 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const tabs = document.querySelectorAll('#tabs button');
             const contents = document.querySelectorAll('.tab-content');
 
             tabs.forEach((tab, index) => {
-                tab.addEventListener('click', () => {
-                    // Remove active class from all tabs
-                    tabs.forEach(t => t.classList.remove('active-tab'));
-                    // Hide all tab contents
-                    contents.forEach(c => c.classList.add('hidden'));
-
-                    // Add active class to the clicked tab and show its content
+                tab.addEventListener('click', () => { 
+                    tabs.forEach(t => t.classList.remove('active-tab')); 
+                    contents.forEach(c => c.classList.add('hidden')); 
                     tab.classList.add('active-tab');
                     contents[index].classList.remove('hidden');
                 });

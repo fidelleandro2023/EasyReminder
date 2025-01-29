@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Models;
-
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,7 +9,6 @@ class Menu extends Model
 
     protected $fillable = ['name', 'url', 'icon', 'roles', 'permissions', 'order','parent_id'];
 
-    // Decodificar roles y permisos como array
     protected $casts = [
         'roles' => 'array',
         'permissions' => 'array',

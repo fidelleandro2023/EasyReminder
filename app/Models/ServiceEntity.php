@@ -35,4 +35,8 @@ class ServiceEntity extends Model
     {
         return $this->hasMany(ServiceEntity::class, 'parent_id');
     }
+    public function parent()
+    {
+        return $this->belongsTo(ServiceEntity::class, 'parent_id');
+    }
 }

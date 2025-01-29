@@ -10,9 +10,9 @@ class ServiceEntityController extends Controller
      */
     public function index()
     {
-        $serviceEntities = ServiceEntity::all();
+        $serviceEntities = ServiceEntity::with('parent')->paginate(10);
 
-        return view('service_entity.index', compact('serviceEntities'));
+        return view('service_entities.index', compact('serviceEntities')); 
     }
 
     /**
@@ -20,7 +20,8 @@ class ServiceEntityController extends Controller
      */
     public function create()
     {
-        return view('service_entity.create');
+        $categories = ServiceEntity::whereNull('parent_id')->with('services')->get();
+        return view('service_entities.create', compact('categories'));
     }
 
     /**
@@ -35,7 +36,7 @@ class ServiceEntityController extends Controller
 
         ServiceEntity::create($request->all());
 
-        return redirect()->route('service-entity.index')->with('success', 'Entidad de servicio creada exitosamente.');
+        return redirect()->route('service_entities.index')->with('success', 'Entidad de servicio creada exitosamente.');
     }
 
     /**
@@ -43,7 +44,7 @@ class ServiceEntityController extends Controller
      */
     public function show(ServiceEntity $serviceEntity)
     {
-        return view('service_entity.show', compact('serviceEntity'));
+        return view('service_entities.show', compact('serviceEntity'));
     }
 
     /**
@@ -51,7 +52,9 @@ class ServiceEntityController extends Controller
      */
     public function edit(ServiceEntity $serviceEntity)
     {
-        return view('service_entity.edit', compact('serviceEntity'));
+        $categories = ServiceEntity::whereNull('parent_id')->with('services')->get();
+         
+        return view('service_entities.edit', compact('serviceEntity', 'categories'));
     }
 
     /**
@@ -66,7 +69,7 @@ class ServiceEntityController extends Controller
 
         $serviceEntity->update($request->all());
 
-        return redirect()->route('service-entity.index')->with('success', 'Entidad de servicio actualizada exitosamente.');
+        return redirect()->route('service_entities.index')->with('success', 'Entidad de servicio actualizada exitosamente.');
     }
 
     /**
@@ -76,6 +79,6 @@ class ServiceEntityController extends Controller
     {
         $serviceEntity->delete();
 
-        return redirect()->route('service-entity.index')->with('success', 'Entidad de servicio eliminada exitosamente.');
+        return redirect()->route('service_entities.index')->with('success', 'Entidad de servicio eliminada exitosamente.');
     }
 }

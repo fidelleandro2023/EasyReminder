@@ -59,6 +59,6 @@
                     </li>
                 @endif
             @endforeach
-        </ul>
-    </div>
+        </ul> 
+    </div> 
 </div>
