@@ -8,7 +8,7 @@
         <h1 class="text-2xl font-bold mb-6">Análisis de Gastos</h1>
 
         <div class="mb-4">
-            <a href="{{ route('expense-analysis.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+            <a href="{{ route('expense.analysis.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                 Crear Nuevo Análisis
             </a>
         </div>
@@ -45,6 +45,8 @@
                     @endforelse
                 </tbody>
             </table>
+            <br>
+            {{ $expenseAnalyses->links() }}
         </div>
     </div>
 </x-app-layout>

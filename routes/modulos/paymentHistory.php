@@ -3,23 +3,23 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentHistoryController;
 
 Route::middleware(['auth', 'can:view'])->group(function () {
-    Route::get('payment-histories', [PaymentHistoryController::class, 'index'])
+    Route::get('historial-pagos', [PaymentHistoryController::class, 'index'])
         ->middleware('auth')
-        ->name('payments.history');
+        ->name('payment_histories');
 
-    Route::get('payment-histories/create', [PaymentHistoryController::class, 'create'])
+    Route::get('historial-pagos/crear', [PaymentHistoryController::class, 'create'])
         ->middleware('auth')
         ->name('payment_histories.create');
 
-    Route::post('payment-histories', [PaymentHistoryController::class, 'store'])
+    Route::post('historial-pagos', [PaymentHistoryController::class, 'store'])
         ->middleware('auth')
         ->name('payment_histories.store');
 
-    Route::get('payment-histories/{paymentHistory}', [PaymentHistoryController::class, 'show'])
+    Route::get('historial-pagos/{paymentHistory}', [PaymentHistoryController::class, 'show'])
         ->middleware('auth')
         ->name('payment_histories.show');
 
-    Route::delete('payment-histories/{paymentHistory}', [PaymentHistoryController::class, 'destroy'])
+    Route::delete('historial-pagos/{paymentHistory}', [PaymentHistoryController::class, 'destroy'])
         ->middleware('auth')
         ->name('payment_histories.destroy');
 });

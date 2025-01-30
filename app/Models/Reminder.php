@@ -1,5 +1,6 @@
 <?php
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,8 +23,10 @@ class Reminder extends Model
     protected $fillable = [
         'user_id',
         'payment_id',
-        'reminder_type',
+        'recurring_payment_id',  
+        'reminder_types',
         'status',
+        'reminder_date'
     ];
 
     /**
@@ -40,5 +43,13 @@ class Reminder extends Model
     public function payment()
     {
         return $this->belongsTo(Payment::class);
+    }
+
+    /**
+     * Relación: Pago recurrente asociado al recordatorio.
+     */
+    public function recurringPayment()
+    {
+        return $this->belongsTo(RecurringPayment::class, 'recurring_payment_id');
     }
 }

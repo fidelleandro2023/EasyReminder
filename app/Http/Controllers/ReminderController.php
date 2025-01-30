@@ -33,30 +33,48 @@ class ReminderController extends Controller
 
     /**
      * Almacena un nuevo recordatorio en la base de datos.
-     */
+     */ 
     public function store(Request $request)
-    {
+    { 
+        $filtered_reminder_types = array_filter($request->reminder_types ?? [], function ($value) {
+            return !is_null($value);
+        });
+    
+        $request->merge([
+            'reminder_types' => $filtered_reminder_types,
+            'reminder_date' => $request->reminder_date ?? now()->toDateString()  
+        ]);
+    
+        // dd(json_encode($filtered_reminder_types));
+        // dd($request);
+        
         $request->validate([
             'payment_id' => 'nullable|exists:payments,id',
             'recurring_payment_id' => 'nullable|exists:recurring_payments,id',
-            'reminder_types' => 'required|array',
+            'reminder_types' => 'nullable|array',
             'reminder_types.*' => 'in:email,push,sms',
             'status' => 'required|in:active,inactive',
             'reminder_date' => 'required|date',
         ]);
-
+    
+        if (!$request->payment_id && !$request->recurring_payment_id) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['payment_id' => 'Debe seleccionar al menos un pago único o un pago recurrente.']);
+        }
+    
         Reminder::create([
             'user_id' => Auth::id(),
             'payment_id' => $request->payment_id,
             'recurring_payment_id' => $request->recurring_payment_id,
-            'reminder_types' => json_encode($request->reminder_types),
+            'reminder_types' => json_encode($filtered_reminder_types),
             'status' => $request->status,
-            'reminder_date' => $request->reminder_date,
+            'reminder_date' => $request->reminder_date,  
         ]);
-
+    
         return redirect()->route('reminders.index')->with('success', 'Recordatorio creado exitosamente.');
     }
-
+     
     /**
      * Muestra los detalles de un recordatorio específico.
      */

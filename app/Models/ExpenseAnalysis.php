@@ -12,7 +12,7 @@ class ExpenseAnalysis extends Model
      *
      * @var string
      */
-    protected $table = 'expense_analyses';
+    protected $table = 'expense_analysis';
 
     /**
      * Los atributos que se pueden asignar masivamente.

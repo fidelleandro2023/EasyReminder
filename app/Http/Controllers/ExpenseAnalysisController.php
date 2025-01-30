@@ -11,7 +11,7 @@ class ExpenseAnalysisController extends Controller
      */
     public function index()
     {
-        $expenseAnalyses = ExpenseAnalysis::where('user_id', Auth::id())->get();
+        $expenseAnalyses = ExpenseAnalysis::where('user_id', Auth::id())->paginate(10);
 
         return view('expense_analysis.index', compact('expenseAnalyses'));
     }

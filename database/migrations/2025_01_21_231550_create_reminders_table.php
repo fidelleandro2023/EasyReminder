@@ -31,14 +31,14 @@ return new class extends Migration
                 ->onDelete('cascade')
                 ->comment('Referencia al pago recurrente asociado (si aplica)');
 
-            $table->json('reminder_types')
-                ->comment('Tipos de recordatorio seleccionados: email, push, sms. Guardado en formato JSON.');
+            $table->json('reminder_types')->nullable()
+                  ->comment('Tipos de recordatorio seleccionados: email, push, sms. Guardado en formato JSON.');
 
             $table->enum('status', ['active', 'inactive'])
                 ->default('active')
                 ->comment('Estado del recordatorio: activo o inactivo');
 
-            $table->date('reminder_date')
+            $table->date('reminder_date')->nullable()
                 ->comment('Fecha en la que se enviará el recordatorio');
 
             $table->timestamps();

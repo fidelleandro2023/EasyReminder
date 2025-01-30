@@ -1,11 +1,13 @@
 <?php
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Budget extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * La tabla asociada al modelo.
@@ -25,6 +27,9 @@ class Budget extends Model
         'description',
         'amount',
         'spent',
+        'start_date',
+        'end_date',
+        'status',
     ];
 
     /**
@@ -36,10 +41,26 @@ class Budget extends Model
     }
 
     /**
-     * Método para calcular el saldo disponible.
+     * Calcula el saldo disponible del presupuesto.
      */
     public function getAvailableBudgetAttribute()
     {
-        return $this->amount - $this->spent;
+        return max(0, $this->amount - $this->spent);
+    }
+
+    /**
+     * Verifica si el presupuesto ha sido excedido.
+     */
+    public function isOverBudget()
+    {
+        return $this->spent > $this->amount;
+    }
+
+    /**
+     * Scope para obtener solo presupuestos activos.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
     }
 }

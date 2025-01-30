@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Auth;
 class BudgetController extends Controller
 {
     /**
-     * Lista los presupuestos del usuario autenticado.
+     * Lista los presupuestos del usuario autenticado con paginación.
      */
     public function index()
     {
-        $budgets = Budget::where('user_id', Auth::id())->get();
+        $budgets = Budget::where('user_id', Auth::id())->paginate(10);
 
         return view('budgets.index', compact('budgets'));
     }
@@ -33,6 +33,9 @@ class BudgetController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'amount' => 'required|numeric|min:0.01',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'required|in:active,inactive',
         ]);
 
         Budget::create([
@@ -41,6 +44,9 @@ class BudgetController extends Controller
             'description' => $request->description,
             'amount' => $request->amount,
             'spent' => 0,  
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'status' => $request->status,
         ]);
 
         return redirect()->route('budgets.index')->with('success', 'Presupuesto creado exitosamente.');
@@ -51,7 +57,7 @@ class BudgetController extends Controller
      */
     public function show(Budget $budget)
     {
-        $this->authorize('view', $budget); 
+        $this->authorize('view', $budget);
 
         return view('budgets.show', compact('budget'));
     }
@@ -61,7 +67,7 @@ class BudgetController extends Controller
      */
     public function edit(Budget $budget)
     {
-        $this->authorize('update', $budget);  
+        $this->authorize('update', $budget);
 
         return view('budgets.edit', compact('budget'));
     }
@@ -77,21 +83,31 @@ class BudgetController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'amount' => 'required|numeric|min:0.01',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+            'status' => 'required|in:active,inactive',
         ]);
 
-        $budget->update($request->only('name', 'description', 'amount'));
+        // Si el nuevo monto es menor a lo que ya se ha gastado, prevenir error
+        if ($request->amount < $budget->spent) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['amount' => 'El monto total no puede ser menor a lo que ya se ha gastado.']);
+        }
+
+        $budget->update($request->only('name', 'description', 'amount', 'start_date', 'end_date', 'status'));
 
         return redirect()->route('budgets.index')->with('success', 'Presupuesto actualizado exitosamente.');
     }
 
     /**
-     * Elimina un presupuesto.
+     * Elimina un presupuesto de manera lógica (soft delete).
      */
     public function destroy(Budget $budget)
     {
         $this->authorize('delete', $budget);
 
-        $budget->delete();
+        $budget->delete(); // Soft delete
 
         return redirect()->route('budgets.index')->with('success', 'Presupuesto eliminado exitosamente.');
     }

@@ -3,8 +3,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NotificationController;
 
 Route::middleware('auth')->group(function () {
-    Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::get('notifications/{notification}', [NotificationController::class, 'show'])->name('notifications.show');
-    Route::put('notifications/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-as-read');
-    Route::delete('notifications/{notification}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
+    Route::get('notificaciones', [NotificationController::class, 'index'])->name('notifications.index');
+    Route::get('notificaciones/{notification}', [NotificationController::class, 'show'])->name('notifications.show');
+    Route::put('notificaciones/{notification}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.mark-as-read');
+    Route::delete('notificaciones/{notification}', [NotificationController::class, 'destroy'])->name('notifications.destroy');
 });

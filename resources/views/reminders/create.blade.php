@@ -8,11 +8,26 @@
     <div class="container mx-auto py-8">
         <h1 class="text-2xl font-bold mb-6">Crear Recordatorio</h1>
 
+        @if ($errors->has('payment_id'))
+            <div class="text-red-500 text-sm">{{ $errors->first('payment_id') }}</div>
+        @endif
+
         <form action="{{ route('reminders.store') }}" method="POST" class="bg-white p-6 shadow rounded-lg space-y-6">
             @csrf
+            <input type="hidden" name="reminder_types[]" value="">
+            <!-- Mensaje de ayuda -->
+            <div class="p-4 bg-blue-50 text-blue-700 border border-blue-200 rounded-lg text-sm">
+                Puede seleccionar **un pago único**, **un pago recurrente**, o **ambos**. Si no selecciona ninguno, se mostrará un error.
+            </div>
+
+            <!-- Checkbox para seleccionar ambos pagos -->
+            <div class="flex items-center space-x-3">
+                <input type="checkbox" id="select_both" class="h-5 w-5 text-blue-500">
+                <label for="select_both" class="text-gray-700 font-medium">Quiero seleccionar un pago único y un pago recurrente</label>
+            </div>
 
             <!-- Selección de pago único -->
-            <div>
+            <div id="payment_section">
                 <label for="payment_id" class="block font-semibold mb-1">Pago Único Asociado:</label>
                 <select name="payment_id" id="payment_id"
                     class="w-full border-gray-300 rounded-lg focus:ring focus:ring-blue-200 select2">
@@ -23,13 +38,14 @@
                         </option>
                     @endforeach
                 </select>
+                <p class="text-gray-500 text-sm mt-1">Seleccione un pago único si es un cobro puntual.</p>
                 @error('payment_id')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
             <!-- Selección de pago recurrente -->
-            <div>
+            <div id="recurring_payment_section">
                 <label for="recurring_payment_id" class="block font-semibold mb-1">Pago Recurrente Asociado:</label>
                 <select name="recurring_payment_id" id="recurring_payment_id"
                     class="w-full border-gray-300 rounded-lg focus:ring focus:ring-blue-200 select2">
@@ -40,6 +56,7 @@
                         </option>
                     @endforeach
                 </select>
+                <p class="text-gray-500 text-sm mt-1">Seleccione un pago recurrente si se repite periódicamente.</p>
                 @error('recurring_payment_id')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
@@ -75,7 +92,7 @@
                 <label for="reminder_date" class="block font-semibold mb-1">Fecha de Recordatorio:</label>
                 <input type="date" name="reminder_date" id="reminder_date"
                     class="w-full border-gray-300 rounded-lg focus:ring focus:ring-blue-200"
-                    value="{{ old('reminder_date') }}" required>
+                    value="{{ old('reminder_date', now()->toDateString()) }}" required>
                 @error('reminder_date')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
@@ -105,34 +122,40 @@
             </div>
         </form>
     </div>
-
-    <!-- Select2 -->
-    <script src="{{ asset('js/select2/js/select2.min.js') }}"></script>
-    <link href="{{ asset('js/select2/css/select2.min.css') }}" rel="stylesheet" />
-
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2({
-                placeholder: "Seleccione una opción",
-                allowClear: true
-            });
-
-            // Si el usuario selecciona un pago único, deshabilitar pago recurrente y viceversa
-            $('#payment_id').change(function() {
-                if ($(this).val()) {
-                    $('#recurring_payment_id').prop('disabled', true).val(null).trigger('change');
-                } else {
-                    $('#recurring_payment_id').prop('disabled', false);
-                }
-            });
-
-            $('#recurring_payment_id').change(function() {
-                if ($(this).val()) {
-                    $('#payment_id').prop('disabled', true).val(null).trigger('change');
-                } else {
-                    $('#payment_id').prop('disabled', false);
-                }
-            });
-        });
-    </script>
 </x-app-layout>
+
+<!-- Select2 -->
+<script src="{{ asset('js/select2/js/select2.min.js') }}"></script>
+<link href="{{ asset('js/select2/css/select2.min.css') }}" rel="stylesheet" />
+
+<script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: "Seleccione una opción",
+            allowClear: true
+        });
+
+        // Checkbox para permitir selección de ambos pagos
+        $('#select_both').change(function() {
+            if ($(this).is(':checked')) {
+                $('#payment_id, #recurring_payment_id').prop('disabled', false);
+            } else {
+                $('#payment_id, #recurring_payment_id').val(null).trigger('change');
+            }
+        });
+
+        // Validación visual en el formulario
+        $('form').submit(function(event) {
+            let paymentSelected = $('#payment_id').val();
+            let recurringPaymentSelected = $('#recurring_payment_id').val();
+
+            if (!paymentSelected && !recurringPaymentSelected) {
+                event.preventDefault();
+                $('#payment_id, #recurring_payment_id').addClass('border-red-500');
+                alert('Debe seleccionar al menos un pago único o un pago recurrente.');
+            } else {
+                $('#payment_id, #recurring_payment_id').removeClass('border-red-500');
+            }
+        });
+    });
+</script>
