@@ -60,7 +60,7 @@ class ExpenseCategoryController extends Controller
      */
     public function edit(ExpenseCategory $expenseCategory)
     {
-        $this->authorize('update', $expenseCategory);
+        //$this->authorize('update', $expenseCategory);
 
         return view('expense_categories.edit', compact('expenseCategory'));
     }

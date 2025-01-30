@@ -67,8 +67,7 @@ class BudgetController extends Controller
      */
     public function edit(Budget $budget)
     {
-        $this->authorize('update', $budget);
-
+        //$this->authorize('update', $budget);
         return view('budgets.edit', compact('budget'));
     }
 

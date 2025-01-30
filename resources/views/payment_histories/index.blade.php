@@ -48,6 +48,10 @@
                     @endforelse
                 </tbody>
             </table>
+            <br>
+            <div class="mt-4">
+                {{ $paymentHistories->links() }}
+            </div>
         </div>
     </div>
 </x-app-layout>

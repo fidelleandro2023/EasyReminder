@@ -41,6 +41,10 @@
                     @endforeach
                 </tbody>
             </table>
+            <br>
+            <div class="mt-4">
+                {{ $permissions->links() }}
+            </div>
         </div>
     </div>
 </x-app-layout>

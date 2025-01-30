@@ -69,6 +69,10 @@
                     @endforelse
                 </tbody>
             </table>
+            <br>
+            <div class="mt-4">
+                {{ $payments->links() }}
+            </div>
         </div>
     </div>
 </x-app-layout>

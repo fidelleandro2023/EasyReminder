@@ -90,10 +90,11 @@ class ReminderController extends Controller
      */
     public function edit(Reminder $reminder)
     {
-        $this->authorize('update', $reminder);
-
-        $payments = Payment::where('user_id', Auth::id())->get();
-        $recurringPayments = RecurringPayment::where('user_id', Auth::id())->get(); // Obtener pagos recurrentes
+        //$this->authorize('update', $reminder);
+        $payments = Payment::where('user_id', Auth::id())
+                           ->get();
+        $recurringPayments = RecurringPayment::where('user_id', Auth::id())
+                                             ->get();  
 
         return view('reminders.edit', compact('reminder', 'payments', 'recurringPayments'));
     }

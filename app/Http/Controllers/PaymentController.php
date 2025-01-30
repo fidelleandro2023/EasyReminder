@@ -70,7 +70,7 @@ class PaymentController extends Controller
      */
     public function edit(Payment $payment)
     {
-        $this->authorize('update', $payment);
+        //$this->authorize('update', $payment);
 
         $services = ServiceEntity::all();
         return view('payments.edit', compact('payment', 'services'));

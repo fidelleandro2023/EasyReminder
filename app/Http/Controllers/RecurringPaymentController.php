@@ -79,7 +79,7 @@ class RecurringPaymentController extends Controller
     public function edit(RecurringPayment $recurringPayment)
     {
         $categories = ServiceEntity::whereNull('parent_id')->with('services')->get();
-        $this->authorize('update', $recurringPayment);
+        //$this->authorize('update', $recurringPayment);
 
         //$services = ServiceEntity::all();
         return view('recurring_payments.edit', compact('recurringPayment', 'categories'));
