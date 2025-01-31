@@ -1,6 +1,5 @@
 <?php
 namespace App\Http\Controllers;
-
 use App\Models\Payment;
 use App\Models\RecurringPayment;  
 use Illuminate\Http\Request;
@@ -11,8 +10,7 @@ class DashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
-
-        // Obtener pagos vencidos correctamente (según la lógica de overdue())
+ 
         $overduePaymentsQuery = Payment::notDeleted()
             ->where('due_date', '<', now())  
             ->where('status', '!=', 'paid');
@@ -24,7 +22,7 @@ class DashboardController extends Controller
         return view('dashboard', [
             'pendingPaymentsCount' => Payment::where('status', 'pending')->count(),
             'paidPaymentsCount' => Payment::where('status', 'paid')->count(),
-            'overduePaymentsCount' => $overduePaymentsQuery->count(), // ✅ Corrige la cuenta de vencidos
+            'overduePaymentsCount' => $overduePaymentsQuery->count(),  
             'priorityPayments' => Payment::where('status', '!=', 'paid')
                 ->orderBy('due_date', 'asc')
                 ->take(8)
