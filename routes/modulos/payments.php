@@ -4,6 +4,8 @@ use App\Http\Controllers\PaymentController;
 
 Route::middleware(['auth', 'can:view'])->group(function () {
     Route::get('pagos', [PaymentController::class, 'index'])->middleware('auth')->name('payments.index');
+    
+    Route::get('pagos/overdue', [PaymentController::class, 'overdue'])->name('payments.overdue');
 
     Route::get('pagos/crear', [PaymentController::class, 'create'])->middleware('auth')->name('payments.create');
 

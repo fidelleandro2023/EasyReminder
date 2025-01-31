@@ -30,6 +30,9 @@ class Payment extends Model
     ];
 
     protected $dates = ['deleted_at'];
+    protected $casts = [
+        'due_date' => 'datetime',
+    ];
     /**
      * Relaciones: Usuario asociado al pago.
      */

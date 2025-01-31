@@ -106,4 +106,23 @@ class PaymentController extends Controller
     
         return redirect()->route('payments.index')->with('success', 'Pago eliminado exitosamente.');
     }
+
+    public function overdue()
+    {
+        $user = Auth::user();
+
+        $payments = Payment::notDeleted()
+                            ->with('user', 'serviceEntity')
+                            ->where('due_date', '<', now())  
+                            ->where('status', '!=', 'paid')  
+                            ->orderBy('due_date', 'asc');
+
+        if ($user->role !== 'admin') {  
+            $payments->where('user_id', $user->id);  
+        }
+
+        $payments = $payments->paginate(10);
+
+        return view('payments.overdue', compact('payments'));
+    }
 }

@@ -12,6 +12,8 @@
             <a href="{{ route('payments.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                 Crear Nuevo Pago
             </a>
+            <a href="{{ route('payments.overdue') }}" class="btn btn-danger">Ver pagos vencidos</a>
+
         </div>
 
         <!-- Tabla de pagos -->
