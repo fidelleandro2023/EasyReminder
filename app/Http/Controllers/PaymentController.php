@@ -106,7 +106,9 @@ class PaymentController extends Controller
     
         return redirect()->route('payments.index')->with('success', 'Pago eliminado exitosamente.');
     }
-
+    /**
+     * Pagos vencidos
+     */
     public function overdue()
     {
         $user = Auth::user();
