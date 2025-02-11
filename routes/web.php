@@ -47,3 +47,5 @@ include "modulos/userSettings.php";
 include "modulos/roles.php";
 include "modulos/permisos.php"; 
 include "modulos/menus.php"; 
+include "modulos/HelpCategory.php";
+include "HelpFaq.php";
