@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Auth;
 
 class ExpenseAnalysisController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Lista los análisis de gastos del usuario autenticado.
      */

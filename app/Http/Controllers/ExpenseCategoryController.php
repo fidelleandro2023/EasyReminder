@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class ExpenseCategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Lista las categorías de gastos del usuario autenticado.
      */

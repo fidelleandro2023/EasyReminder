@@ -28,7 +28,7 @@ class HelpFaqController extends Controller
      */
     public function create()
     {
-        $categories = HelpCategory::all(); // Para el select de categorías
+        $categories = HelpCategory::all();  
         return view('faqs.create', compact('categories'));
     }
 
@@ -103,8 +103,7 @@ class HelpFaqController extends Controller
     public function destroy($id)
     {
         $faq = HelpFaq::findOrFail($id);
-        $faq->delete(); // SoftDeletes si está habilitado en el modelo
-
+        $faq->delete();   
         return redirect()->route('faqs.index')->with('success', 'Pregunta eliminada correctamente.');
     }
 }

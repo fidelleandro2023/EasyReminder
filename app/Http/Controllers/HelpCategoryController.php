@@ -1,4 +1,5 @@
-<?php 
+<?php  
+
 namespace App\Http\Controllers;
 
 use App\Models\HelpCategory;
@@ -6,6 +7,11 @@ use Illuminate\Http\Request;
 
 class HelpCategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Muestra la lista de categorías de ayuda con paginación.
      */
@@ -40,11 +46,11 @@ class HelpCategoryController extends Controller
 
         HelpCategory::create($request->all());
 
-        return redirect()->route('help_categories.index')->with('success', 'Categoría creada exitosamente');
+        return redirect()->route('help-categories.index')->with('success', 'Categoría creada exitosamente');
     }
 
     /**
-     * Muestra una categoría específica.
+     * Muestra una categoría específica con sus guías y FAQs relacionadas.
      */
     public function show($id)
     {
@@ -80,7 +86,7 @@ class HelpCategoryController extends Controller
 
         $category->update($request->all());
 
-        return redirect()->route('help_categories.index')->with('success', 'Categoría actualizada exitosamente');
+        return redirect()->route('help-categories.index')->with('success', 'Categoría actualizada exitosamente');
     }
 
     /**
@@ -91,7 +97,7 @@ class HelpCategoryController extends Controller
         $category = HelpCategory::findOrFail($id);
         $category->delete();
 
-        return redirect()->route('help_categories.index')->with('success', 'Categoría eliminada exitosamente');
+        return redirect()->route('help-categories.index')->with('success', 'Categoría eliminada exitosamente');
     }
 
     /**

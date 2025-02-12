@@ -1,16 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Categorías de Ayud') }}
+            {{ __('Categorías de Ayuda') }}
         </h2>
     </x-slot>
-    <div class="container max-w-7xl mx-auto p-6 bg-white shadow-lg rounded-lg"> 
-        <!-- Botón para crear nueva categoría -->
-        <a href="{{ route('help_categories.create') }}" class="mb-4 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+    <div class="container max-w-7xl mx-auto p-6 bg-white shadow-lg rounded-lg">  
+        <a href="{{ route('help-categories.create') }}" class="mb-4 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
             + Nueva Categoría
         </a>
-
-        <!-- Tabla de Categorías -->
+ 
         <div class="overflow-x-auto">
             <table class="w-full border border-gray-200 shadow-md">
                 <thead class="bg-gray-100">
@@ -33,7 +31,7 @@
                             </span>
                         </td>
                         <td class="px-4 py-2 border text-center">
-                            <a href="{{ route('help_categories.edit', $category) }}" class="text-blue-500 hover:underline">Editar</a> |
+                            <a href="{{ route('help-categories.edit', $category) }}" class="text-blue-500 hover:underline">Editar</a> |
                             <form action="{{ route('help_categories.destroy', $category) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
@@ -47,8 +45,7 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- Paginación -->
+ 
         <div class="mt-4">
             {{ $categories->links() }}
         </div>

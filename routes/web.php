@@ -48,4 +48,6 @@ include "modulos/roles.php";
 include "modulos/permisos.php"; 
 include "modulos/menus.php"; 
 include "modulos/HelpCategory.php";
-include "HelpFaq.php";
+include "modulos/HelpFaq.php";
+include "modulos/HelpGuide.php";
+include "modulos/HelpVideo.php";

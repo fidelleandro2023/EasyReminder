@@ -7,6 +7,10 @@ use Spatie\Permission\Models\Permission;
 
 class MenuController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $menus = Menu::orderBy('order')->paginate(10);

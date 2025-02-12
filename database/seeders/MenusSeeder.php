@@ -301,47 +301,89 @@ class MenusSeeder extends Seeder
                         'permissions' => json_encode(['view']),
                         'order' => 2,
                     ],
+                ],
+            ],
+            [
+                'name' => 'Ayuda',
+                'url' => '#',
+                'icon' => 'fas fa-question-circle',
+                'roles' => json_encode([$roleAdmin->id, $roleEditor->id, $roleUser->id]),
+                'permissions' => json_encode(['view']),
+                'order' => 3,
+                'children' => [
                     [
-                        'name' => 'Ayuda',
-                        'url' => '#',
-                        'icon' => 'fas fa-question-circle',
-                        'roles' => json_encode([$roleAdmin->id, $roleEditor->id, $roleUser->id]),
-                        'permissions' => json_encode(['view']),
-                        'order' => 3,
-                        'children' => [
-                            [
                                 'name' => 'Documentación',
-                                'url' => str_replace(url('/'), '', route('help.documentation')),
+                                'url' => str_replace(url('/'), '', route('help_guides.index')),
                                 'icon' => 'fas fa-book',
                                 'roles' => json_encode([$roleAdmin->id, $roleEditor->id, $roleUser->id]),
                                 'permissions' => json_encode(['view']),
                                 'order' => 1,
-                            ],
-                            [
+                    ],
+                    [
                                 'name' => 'Preguntas Frecuentes',
-                                'url' => str_replace(url('/'), '', route('help.faq')),
+                                'url' => str_replace(url('/'), '', route('help-faqs.index')),
                                 'icon' => 'fas fa-info-circle',
                                 'roles' => json_encode([$roleAdmin->id, $roleEditor->id, $roleUser->id]),
                                 'permissions' => json_encode(['view']),
                                 'order' => 2,
-                            ],
-                            [
-                                'name' => 'Soporte Técnico',
-                                'url' => str_replace(url('/'), '', route('help.support')),
-                                'icon' => 'fas fa-headset',
-                                'roles' => json_encode([$roleAdmin->id, $roleEditor->id]),
-                                'permissions' => json_encode(['create', 'view']),
-                                'order' => 3,
-                            ],
-                            [
+                    ],
+                            // [
+                            //     'name' => 'Soporte Técnico',
+                            //     'url' => str_replace(url('/'), '', route('help.support')),
+                            //     'icon' => 'fas fa-headset',
+                            //     'roles' => json_encode([$roleAdmin->id, $roleEditor->id]),
+                            //     'permissions' => json_encode(['create', 'view']),
+                            //     'order' => 3,
+                            // ],
+                    [
                                 'name' => 'Video Tutoriales',
-                                'url' => str_replace(url('/'), '', route('help.videos')),
+                                'url' => str_replace(url('/'), '', route('help-videos.index')),
                                 'icon' => 'fas fa-video',
                                 'roles' => json_encode([$roleAdmin->id, $roleEditor->id, $roleUser->id]),
                                 'permissions' => json_encode(['view']),
                                 'order' => 4,
-                            ],
-                        ],
+                    ],
+                ],
+            ],
+            [
+                'name' => 'Administrar Ayuda',
+                'url' => '#',
+                'icon' => 'fas fa-tools',
+                'roles' => json_encode([$roleAdmin->id, $roleEditor->id]),
+                'permissions' => json_encode(['manage']),
+                'order' => 4,
+                'children' => [
+                    [
+                        'name' => 'Categorías de Ayuda',
+                        'url' => str_replace(url('/'), '', route('help-categories.index')),
+                        'icon' => 'fas fa-folder',
+                        'roles' => json_encode([$roleAdmin->id, $roleEditor->id]),
+                        'permissions' => json_encode(['manage']),
+                        'order' => 1,
+                    ],
+                    [
+                        'name' => 'Guías',
+                        'url' => str_replace(url('/'), '', route('help_guides.index')),
+                        'icon' => 'fas fa-book-open',
+                        'roles' => json_encode([$roleAdmin->id, $roleEditor->id]),
+                        'permissions' => json_encode(['manage']),
+                        'order' => 2,
+                    ],
+                    [
+                        'name' => 'FAQs',
+                        'url' => str_replace(url('/'), '', route('help-faqs.index')),
+                        'icon' => 'fas fa-question',
+                        'roles' => json_encode([$roleAdmin->id, $roleEditor->id]),
+                        'permissions' => json_encode(['manage']),
+                        'order' => 3,
+                    ],
+                    [
+                        'name' => 'Videos de Ayuda',
+                        'url' => str_replace(url('/'), '', route('help-videos.index')),
+                        'icon' => 'fas fa-video',
+                        'roles' => json_encode([$roleAdmin->id, $roleEditor->id]),
+                        'permissions' => json_encode(['manage']),
+                        'order' => 4,
                     ],
                 ],
             ],
@@ -356,8 +398,7 @@ class MenusSeeder extends Seeder
                 'roles' => $menu['roles'],
                 'permissions' => $menu['permissions'],
                 'order' => $menu['order'],
-            ]);
-
+            ]); 
              
             if (isset($menu['children'])) {
                 foreach ($menu['children'] as $child) {
